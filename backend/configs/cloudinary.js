@@ -8,21 +8,21 @@ cloudinary.config({
   api_secret: process.env.CLOUDINARY_API_SECRET,
 })
 
-const profileStorage = new CloudinaryStorage({
+const storage = new CloudinaryStorage({
   cloudinary,
-  params: {
-    folder: 'profile',
-    allowed_formats: ['jpeg', 'png'],
+  params: (req, file) => {
+    const folderMap = {
+      profile: 'profiles',
+      cover: 'covers',
+    }
+
+    return {
+      folder: folderMap[file.fieldname],
+      allowed_formats: ['jpeg', 'png', 'jpg'],
+    }
   },
 })
 
-const coverStorage = new CloudinaryStorage({
-  cloudinary,
-  params: {
-    folder: 'cover',
-    allowed_formats: ['jpeg', 'png'],
-  },
-})
+const upload = multer({ storage })
 
-export const profileUpload = multer({ storage: profileStorage })
-export const coverUpload = multer({ storage: coverStorage })
+export default upload

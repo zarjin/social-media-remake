@@ -32,7 +32,7 @@ const userSchema = new mongoose.Schema({
     },
   ],
 
-  fowlling: [
+  fowling: [
     {
       type: mongoose.Schema.Types.ObjectId,
       ref: 'User',
