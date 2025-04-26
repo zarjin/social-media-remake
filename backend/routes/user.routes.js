@@ -3,8 +3,9 @@ import isAuthentication from "../middlewares/isAuthentication.js";
 import {
   updateUserData,
   userFollow,
-  getUser,
+  getAuthUser,
   getAllUsers,
+  getUserById,
 } from "../controllers/user.controller.js";
 import upload from "../configs/cloudinary.js";
 
@@ -20,7 +21,9 @@ userRouter.post(
   updateUserData
 );
 userRouter.put("/following/:id", isAuthentication, userFollow);
-userRouter.get("/get-user", isAuthentication, getUser);
+userRouter.get("/get-auth-user", isAuthentication, getAuthUser);
 userRouter.get("/get-all-users", isAuthentication, getAllUsers);
+
+userRouter.get("/get-user/:id", isAuthentication, getUserById);
 
 export default userRouter;
