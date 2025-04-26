@@ -5,58 +5,33 @@ export const updateUserData = async (req, res) => {
   const userId = req.user.id;
 
   try {
-    await userModel.findByIdAndUpdate(
+    const updatedUser = await userModel.findByIdAndUpdate(
       userId,
       {
-        profile: req.file ? req.file.path : "",
-        cover: req.file ? req.file.path : "",
+        profile: req.files?.profile ? req.files.profile[0].path : undefined,
+        cover: req.files?.cover ? req.files.cover[0].path : undefined,
         about,
         work,
       },
-      { new: true }
+      { new: true, runValidators: true }
     );
-    res.status(200).json({ message: "User updated successfully" });
+
+    if (!updatedUser) {
+      return res.status(404).json({ message: "User not found" });
+    }
+
+    res
+      .status(200)
+      .json({ message: "User updated successfully", user: updatedUser });
   } catch (error) {
-    console.log(error);
+    console.error("Update user error:", error);
     res
       .status(500)
       .json({ message: "Update user failed", error: error.message });
   }
 };
 
-export const userFollower = async (req, res) => {
-  const userId = req.user.id;
-  const { id } = req.params;
-
-  try {
-    const user = await userModel.findById(id);
-    if (!user) return res.status(404).json({ message: "User not found" });
-
-    const alreadyFollow = user.follower.includes(userId);
-
-    const updateOperator = alreadyFollow ? "$pull" : "$push";
-
-    await userModel.findByIdAndUpdate(
-      id,
-      { [updateOperator]: { follower: userId } },
-      { new: true }
-    );
-    await userModel.findByIdAndUpdate(
-      userId,
-      { [updateOperator]: { fowling: id } },
-      { new: true }
-    );
-
-    return res.status(200).json({
-      message: alreadyFollow ? "Unfollowed" : "Followed",
-    });
-  } catch (error) {
-    console.error(error);
-    res.status(500).json({ message: "Something went wrong" });
-  }
-};
-
-export const userFowling = async (req, res) => {
+export const userFollow = async (req, res) => {
   const userId = req.user.id;
   const { id } = req.params;
   try {
@@ -66,24 +41,27 @@ export const userFowling = async (req, res) => {
     const alreadyFollowing = user.follower.includes(userId);
     const updateOperator = alreadyFollowing ? "$pull" : "$push";
 
+    const updatedUser = await userModel.findByIdAndUpdate(
+      userId,
+      { [updateOperator]: { following: id } },
+      { new: true }
+    );
+
     await userModel.findByIdAndUpdate(
       id,
       { [updateOperator]: { follower: userId } },
       { new: true }
     );
 
-    await userModel.findByIdAndUpdate(
-      userId,
-      { [updateOperator]: { fowling: id } },
-      { new: true }
-    );
-
     return res.status(200).json({
       message: alreadyFollowing ? "Unfollowed" : "Followed",
+      user: updatedUser,
     });
   } catch (error) {
-    console.error(error);
-    res.status(500).json({ message: "Something went wrong" });
+    console.error("User following error:", error);
+    res
+      .status(500)
+      .json({ message: "Something went wrong", error: error.message });
   }
 };
 
@@ -91,9 +69,15 @@ export const getUser = async (req, res) => {
   const userId = req.user.id;
   try {
     const user = await userModel.findById(userId).select("-password");
+    if (!user) {
+      return res.status(404).json({ message: "User not found" });
+    }
     res.status(200).json(user);
   } catch (error) {
-    res.status(500).json({ message: "Something went wrong" });
+    console.error("Get user error:", error);
+    res
+      .status(500)
+      .json({ message: "Something went wrong", error: error.message });
   }
 };
 
@@ -102,6 +86,9 @@ export const getAllUsers = async (req, res) => {
     const users = await userModel.find().select("-password");
     res.status(200).json(users);
   } catch (error) {
-    res.status(500).json({ message: "Something went wrong" });
+    console.error("Get all users error:", error);
+    res
+      .status(500)
+      .json({ message: "Something went wrong", error: error.message });
   }
 };

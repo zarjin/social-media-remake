@@ -1,4 +1,4 @@
-import mongoose from 'mongoose'
+import mongoose from "mongoose";
 
 const userSchema = new mongoose.Schema({
   name: {
@@ -17,25 +17,25 @@ const userSchema = new mongoose.Schema({
   profile: {
     type: String,
     default:
-      'https://res.cloudinary.com/djvqjvqjv/image/upload/v1688000000/profile/default_profile.jpg',
+      "https://res.cloudinary.com/djvqjvqjv/image/upload/v1688000000/profile/default_profile.jpg",
   },
   cover: {
     type: String,
     default:
-      'https://res.cloudinary.com/djvqjvqjv/image/upload/v1688000000/cover/default_cover.jpg',
+      "https://res.cloudinary.com/djvqjvqjv/image/upload/v1688000000/cover/default_cover.jpg",
   },
 
   follower: [
     {
       type: mongoose.Schema.Types.ObjectId,
-      ref: 'User',
+      ref: "User",
     },
   ],
 
-  fowling: [
+  following: [
     {
       type: mongoose.Schema.Types.ObjectId,
-      ref: 'User',
+      ref: "User",
     },
   ],
 
@@ -47,8 +47,8 @@ const userSchema = new mongoose.Schema({
     type: Date,
     default: Date.now,
   },
-})
+});
 
-const userModel = mongoose.model('User', userSchema)
+const userModel = mongoose.model("User", userSchema);
 
-export default userModel
+export default userModel;
