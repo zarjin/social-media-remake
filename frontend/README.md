@@ -1,12 +1,79 @@
-# React + Vite
+# NetBook Frontend
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+This is the frontend application for NetBook, a social media platform built with React and Vite.
 
-Currently, two official plugins are available:
+## Features
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+- User authentication (register, login, logout)
+- Profile management with customizable profile and cover images
+- Post creation, viewing, and interaction (likes)
+- Follow/unfollow functionality
+- Timeline view with posts from followed users
+- Responsive design with Tailwind CSS
 
-## Expanding the ESLint configuration
+## Tech Stack
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+- React 19
+- React Router v7
+- Tailwind CSS
+- Axios for API requests
+- Context API for state management
+- React Toastify for notifications
+- Lucide React for icons
+
+## Available Scripts
+
+In the project directory, you can run:
+
+### `npm run dev`
+
+Runs the app in development mode.\
+Open [http://localhost:5173](http://localhost:5173) to view it in your browser.
+
+The page will reload when you make changes.\
+You may also see any lint errors in the console.
+
+### `npm run build`
+
+Builds the app for production to the `dist` folder.\
+It correctly bundles React in production mode and optimizes the build for the best performance.
+
+### `npm run preview`
+
+Locally preview the production build.
+
+### `npm run lint`
+
+Runs ESLint to check for code quality issues.
+
+## Environment Variables
+
+Create a `.env` file in the frontend directory with the following variables:
+
+```
+VITE_AUTH_API=http://localhost:5000/api/auth
+VITE_USER_API=http://localhost:5000/api/user
+VITE_POST_API=http://localhost:5000/api/post
+```
+
+## Project Structure
+
+```
+src/
+├── components/     # Reusable UI components
+├── context/        # React Context providers
+├── pages/          # Page components
+├── App.jsx         # Main application component
+├── main.jsx        # Entry point
+└── index.css       # Global styles
+```
+
+## Dependencies
+
+- React and React DOM
+- React Router for navigation
+- Axios for API requests
+- React Toastify for notifications
+- Tailwind CSS for styling
+- Lucide React for icons
+- clsx and tailwind-merge for conditional class names
