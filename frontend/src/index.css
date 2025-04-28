@@ -1,10 +1,10 @@
-@import url("https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100..900;1,100..900&display=swap");
-@import "tailwindcss";
+@import url('https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100..900;1,100..900&display=swap');
+@import 'tailwindcss';
 
 @theme {
   --default-bg: #121212;
   --default-text: #e0e0e0;
-  --font-Roboto: "Roboto", sans-serif;
+  --font-Roboto: 'Roboto', sans-serif;
 }
 @layer base {
   body {
